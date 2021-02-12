@@ -8,6 +8,65 @@
   <body>
     <header>
     </header>
+    <script>
+      //randomly return rock, paper, or scissors
+      function computerPlay() {
+        const plays = ['Rock', 'Paper', 'Scissors'];
+        return plays[Math.floor(Math.random() * plays.length)];
+      }
+
+      //Play a single round using the plays stored in playerSelection and computerSelection
+      // and return a win/lose declaration
+      function declareWinner(playerSelection, computerSelection) {
+        if ((playerSelection === 'Rock') && (computerSelection === 'Scissors')) {
+          return youWin(playerSelection, computerSelection);
+        } else if ((playerSelection === 'Paper') && (computerSelection === 'Rock')) {
+          return youWin(playerSelection, computerSelection);
+        } else if ((playerSelection === 'Scissors') && (computerSelection === 'Paper')) {
+            return youWin(playerSelection, computerSelection);
+          } else if (playerSelection === computerSelection) {
+              return ('Go again!');
+          } else {
+            return youLose(playerSelection, computerSelection);
+          }
+        }
+
+        //test
+
+        let playerSelection = promptPlayer();
+        playerSelection = formatPlayerSelection(playerSelection);
+
+
+        console.log(declareWinner(playerSelection, computerPlay()))
+
+
+      // Function that returns you win declaration statement
+      function youWin(playerSelection, computerSelection) {
+        return (`You win!  ${playerSelection} beats ${computerSelection}!`)
+      }
+
+      //Function that returns you lose declaration statement
+      function youLose(playerSelection, computerSelection) {
+        return (`You lose!  ${computerSelection} beats ${playerSelection}!`)
+      }
+
+      // Function to ask player to make a play selection and store in a variable playerSelection
+      function promptPlayer() {
+        let playerSelection = prompt('Rock, Paper, or Scissors?');
+        return playerSelection;
+      }
+
+      // Function to format the player's selection to be 'title case'
+      function formatPlayerSelection(originalPlayerSelection) {
+        let lowercasePlayerSelection =  originalPlayerSelection.toLowerCase();
+        let firstLetter = lowercasePlayerSelection.slice(0,1);
+        firstLetter = firstLetter.toUpperCase();
+        formattedPlayerSelection = firstLetter + lowercasePlayerSelection.slice(1);
+        return formattedPlayerSelection;
+      }
+
+       
+    </script>
     <footer>
     </footer>
   </body>
