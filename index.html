@@ -24,7 +24,7 @@
 
       //randomly return rock, paper, or scissors (this represents the computer's
           // play)
-      function computerPlay() {
+      function playComputerTurn() {
         const plays = ['Rock', 'Paper', 'Scissors'];
         return plays[Math.floor(Math.random() * plays.length)];
       }
@@ -34,30 +34,30 @@
         playerSelection = formatPlayerSelection(playerSelection);
         if ((playerSelection === 'Rock') && (computerSelection === 'Scissors'))
              {
-          return youWin(playerSelection, computerSelection);
+          return declareYouAsWinner(playerSelection, computerSelection);
         } else if ((playerSelection === 'Paper') && (computerSelection ===
              'Rock')) {
-          return youWin(playerSelection, computerSelection);
+          return declareYouAsWinner(playerSelection, computerSelection);
         } else if ((playerSelection === 'Scissors') && (computerSelection ===
              'Paper')) {
-            return youWin(playerSelection, computerSelection);
+            return declareYouAsWinner(playerSelection, computerSelection);
           } else if (playerSelection === computerSelection) {
               return (`You both threw ${playerSelection}.  Go again!`);
           } else {
-            return youLose(playerSelection, computerSelection);
+            return declareLoser(playerSelection, computerSelection);
           }
         }
 
       // Function that returns you win declaration statement and adds one to 
           //player score variable
-      function youWin(playerSelection, computerSelection) {
+      function declareYouAsWinner(playerSelection, computerSelection) {
         playerScore++;
         return (`You win the round!  ${playerSelection} beats ${computerSelection}!`)
       }
 
       //Function that returns you lose declaration statement and adds one to 
           //computer score variable
-      function youLose(playerSelection, computerSelection) {
+      function declareLoser(playerSelection, computerSelection) {
         computerScore++;
         return (`You lose the round!  ${computerSelection} beats ${playerSelection}!`)
       }
@@ -82,11 +82,11 @@
       // function to play a five-round game, announcing the win/lose declaration
       // for each round and later announces who won the entire game at the end
       function game() {
-        console.log((playSingleRound(promptPlayer(),computerPlay())));
-        console.log((playSingleRound(promptPlayer(),computerPlay())));
-        console.log((playSingleRound(promptPlayer(),computerPlay())));
-        console.log((playSingleRound(promptPlayer(),computerPlay())));
-        console.log((playSingleRound(promptPlayer(),computerPlay())));
+        console.log((playSingleRound(promptPlayer(),playComputerTurn())));
+        console.log((playSingleRound(promptPlayer(),playComputerTurn())));
+        console.log((playSingleRound(promptPlayer(),playComputerTurn())));
+        console.log((playSingleRound(promptPlayer(),playComputerTurn())));
+        console.log((playSingleRound(promptPlayer(),playComputerTurn())));
         if (playerScore > computerScore) {
           console.log('You win the game!');
         } else if (playerScore === computerScore) {
