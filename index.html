@@ -9,15 +9,28 @@
     <header>
     </header>
     <script>
-      //randomly return rock, paper, or scissors
+          
+
+       
+
+        let playerScore = 0;
+        let computerScore = 0;
+
+        //test
+        console.log(game());
+
+
+
+
+      //randomly return rock, paper, or scissors (this represents the computer's play)
       function computerPlay() {
         const plays = ['Rock', 'Paper', 'Scissors'];
         return plays[Math.floor(Math.random() * plays.length)];
       }
 
-      //Play a single round using the plays stored in playerSelection and computerSelection
-      // and return a win/lose declaration
-      function declareWinner(playerSelection, computerSelection) {
+      //Play a single round and return a win/lose declaration
+      function playSingleRound(playerSelection, computerSelection) {
+        playerSelection = formatPlayerSelection(playerSelection);
         if ((playerSelection === 'Rock') && (computerSelection === 'Scissors')) {
           return youWin(playerSelection, computerSelection);
         } else if ((playerSelection === 'Paper') && (computerSelection === 'Rock')) {
@@ -25,44 +38,55 @@
         } else if ((playerSelection === 'Scissors') && (computerSelection === 'Paper')) {
             return youWin(playerSelection, computerSelection);
           } else if (playerSelection === computerSelection) {
-              return ('Go again!');
+              return (`You both threw ${playerSelection}.  Go again!`);
           } else {
             return youLose(playerSelection, computerSelection);
           }
         }
 
-        //test
-
-        let playerSelection = promptPlayer();
-        playerSelection = formatPlayerSelection(playerSelection);
-
-
-        console.log(declareWinner(playerSelection, computerPlay()))
-
-
-      // Function that returns you win declaration statement
+      // Function that returns you win declaration statement and adds one to player score variable
       function youWin(playerSelection, computerSelection) {
-        return (`You win!  ${playerSelection} beats ${computerSelection}!`)
+        playerScore++;
+        return (`You win the round!  ${playerSelection} beats ${computerSelection}!`)
       }
 
-      //Function that returns you lose declaration statement
+      //Function that returns you lose declaration statement and adds one to computer score variable
       function youLose(playerSelection, computerSelection) {
-        return (`You lose!  ${computerSelection} beats ${playerSelection}!`)
+        computerScore++;
+        return (`You lose the round!  ${computerSelection} beats ${playerSelection}!`)
       }
 
-      // Function to ask player to make a play selection and store in a variable playerSelection
+      // Function to ask player to make a play selection and return this value
       function promptPlayer() {
-        let playerSelection = prompt('Rock, Paper, or Scissors?');
-        return playerSelection;
+        return prompt('Rock, Paper, or Scissors?');
       }
 
-      // Function to format the player's selection to be 'title case'
+      // Function to format the player's selection to be 'title case' so that player can type in his 
+      //play in any "case" and it will be understood by the program
       function formatPlayerSelection(originalPlayerSelection) {
         let lowercasePlayerSelection =  originalPlayerSelection.toLowerCase();
         let firstLetter = lowercasePlayerSelection.slice(0,1);
         firstLetter = firstLetter.toUpperCase();
         formattedPlayerSelection = firstLetter + lowercasePlayerSelection.slice(1);
         return formattedPlayerSelection;
+      }
+
+      // function to play a five-round game, announcing the win/lose declaration for each round
+      // and later announces who won the entire game at the end
+      function game() {
+        console.log((playSingleRound(promptPlayer(),computerPlay())));
+        console.log((playSingleRound(promptPlayer(),computerPlay())));
+        console.log((playSingleRound(promptPlayer(),computerPlay())));
+        console.log((playSingleRound(promptPlayer(),computerPlay())));
+        console.log((playSingleRound(promptPlayer(),computerPlay())));
+        if (playerScore > computerScore) {
+          console.log('You win the game!');
+        } else if (playerScore === computerScore) {
+          console.log('Tie game!!');
+        } else {
+          console.log('You lose the game!');
+        }
+
       }
 
        
