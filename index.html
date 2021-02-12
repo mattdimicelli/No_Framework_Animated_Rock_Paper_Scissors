@@ -22,7 +22,8 @@
 
 
 
-      //randomly return rock, paper, or scissors (this represents the computer's play)
+      //randomly return rock, paper, or scissors (this represents the computer's
+          // play)
       function computerPlay() {
         const plays = ['Rock', 'Paper', 'Scissors'];
         return plays[Math.floor(Math.random() * plays.length)];
@@ -31,11 +32,14 @@
       //Play a single round and return a win/lose declaration
       function playSingleRound(playerSelection, computerSelection) {
         playerSelection = formatPlayerSelection(playerSelection);
-        if ((playerSelection === 'Rock') && (computerSelection === 'Scissors')) {
+        if ((playerSelection === 'Rock') && (computerSelection === 'Scissors'))
+             {
           return youWin(playerSelection, computerSelection);
-        } else if ((playerSelection === 'Paper') && (computerSelection === 'Rock')) {
+        } else if ((playerSelection === 'Paper') && (computerSelection ===
+             'Rock')) {
           return youWin(playerSelection, computerSelection);
-        } else if ((playerSelection === 'Scissors') && (computerSelection === 'Paper')) {
+        } else if ((playerSelection === 'Scissors') && (computerSelection ===
+             'Paper')) {
             return youWin(playerSelection, computerSelection);
           } else if (playerSelection === computerSelection) {
               return (`You both threw ${playerSelection}.  Go again!`);
@@ -44,13 +48,15 @@
           }
         }
 
-      // Function that returns you win declaration statement and adds one to player score variable
+      // Function that returns you win declaration statement and adds one to 
+          //player score variable
       function youWin(playerSelection, computerSelection) {
         playerScore++;
         return (`You win the round!  ${playerSelection} beats ${computerSelection}!`)
       }
 
-      //Function that returns you lose declaration statement and adds one to computer score variable
+      //Function that returns you lose declaration statement and adds one to 
+          //computer score variable
       function youLose(playerSelection, computerSelection) {
         computerScore++;
         return (`You lose the round!  ${computerSelection} beats ${playerSelection}!`)
@@ -61,18 +67,20 @@
         return prompt('Rock, Paper, or Scissors?');
       }
 
-      // Function to format the player's selection to be 'title case' so that player can type in his 
-      //play in any "case" and it will be understood by the program
+      // Function to format the player's selection to be 'title case' so that
+          // player can type in his play in any "case" and it will be understood
+          // by the program
       function formatPlayerSelection(originalPlayerSelection) {
         let lowercasePlayerSelection =  originalPlayerSelection.toLowerCase();
         let firstLetter = lowercasePlayerSelection.slice(0,1);
         firstLetter = firstLetter.toUpperCase();
-        formattedPlayerSelection = firstLetter + lowercasePlayerSelection.slice(1);
+        formattedPlayerSelection = firstLetter +
+            lowercasePlayerSelection.slice(1);
         return formattedPlayerSelection;
       }
 
-      // function to play a five-round game, announcing the win/lose declaration for each round
-      // and later announces who won the entire game at the end
+      // function to play a five-round game, announcing the win/lose declaration
+      // for each round and later announces who won the entire game at the end
       function game() {
         console.log((playSingleRound(promptPlayer(),computerPlay())));
         console.log((playSingleRound(promptPlayer(),computerPlay())));
