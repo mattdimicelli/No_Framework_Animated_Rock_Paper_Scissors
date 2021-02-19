@@ -1,105 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1">
+    <meta
+      charset="utf-8"
+      name="viewport"
+      content="width=device-width,initial-scale=1"
+    />
     <title></title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css" />
   </head>
   <body>
-    <header>
-    </header>
+    <div id="results"></div>
+    <button id="rockBtn">Rock</button>
+    <button id="paperBtn">Paper</button>
+    <button id="scissorsBtn">Scissors</button>
+    <header></header>
+    <footer></footer>
     <script>
-          
+      let playerScore = 0;
+      let computerScore = 0;
+      let rounds = 0;
 
-       
+      const rockBtn = document.querySelector("#rockBtn");
+      const paperBtn = document.querySelector("#paperBtn");
+      const scissorsBtn = document.querySelector("#scissorsBtn");
+      const pScore = document.createElement("p");
+      const cScore = document.createElement("p");
+      const resultPara = document.createElement("p");
+      const resultPara2 = document.createElement("p");
+      const resultsDiv = document.querySelector("#results");
+      resultsDiv.appendChild(pScore);
+      resultsDiv.appendChild(cScore);
+      resultsDiv.appendChild(resultPara);
+      resultsDiv.appendChild(resultPara2);
+      pScore.textContent = "Player score: 0";
+      cScore.textContent = "Computer score: 0";
 
-        let playerScore = 0;
-        let computerScore = 0;
-
-        //test
-        console.log(game());
-
-
-
+      rockBtn.addEventListener("click", () => {
+        playSingleRound("Rock", playComputerTurn());
+      });
+      paperBtn.addEventListener("click", () => {
+        playSingleRound("Paper", playComputerTurn());
+      });
+      scissorsBtn.addEventListener("click", () => {
+        playSingleRound("Scissors", playComputerTurn());
+      });
 
       //randomly return rock, paper, or scissors (this represents the computer's
-          // play)
+      // play)
       function playComputerTurn() {
-        const plays = ['Rock', 'Paper', 'Scissors'];
+        const plays = ["Rock", "Paper", "Scissors"];
         return plays[Math.floor(Math.random() * plays.length)];
       }
 
-      //Play a single round and return a win/lose declaration
+      //Function representing one "round" of the game.  Displays whether you
+      // won or lost the round on the screen.  Contains logic to determine
+      // who won or lost the round.
       function playSingleRound(playerSelection, computerSelection) {
-        playerSelection = formatPlayerSelection(playerSelection);
-        if ((playerSelection === 'Rock') && (computerSelection === 'Scissors'))
-             {
-          return declareYouAsWinner(playerSelection, computerSelection);
-        } else if ((playerSelection === 'Paper') && (computerSelection ===
-             'Rock')) {
-          return declareYouAsWinner(playerSelection, computerSelection);
-        } else if ((playerSelection === 'Scissors') && (computerSelection ===
-             'Paper')) {
-            return declareYouAsWinner(playerSelection, computerSelection);
-          } else if (playerSelection === computerSelection) {
-              return (`You both threw ${playerSelection}.  Go again!`);
-          } else {
-            return declareLoser(playerSelection, computerSelection);
+        if (playerSelection === "Rock" && computerSelection === "Scissors") {
+          resultPara.textContent = declareYouAsWinner(
+            playerSelection,
+            computerSelection
+          );
+          endGame();
+        } else if (
+          playerSelection === "Paper" &&
+          computerSelection === "Rock"
+        ) {
+          resultPara.textContent = declareYouAsWinner(
+            playerSelection,
+            computerSelection
+          );
+          endGame();
+        } else if (
+          playerSelection === "Scissors" &&
+          computerSelection === "Paper"
+        ) {
+          resultPara.textContent = declareYouAsWinner(
+            playerSelection,
+            computerSelection
+          );
+          endGame();
+        } else if (playerSelection === computerSelection) {
+          resultPara.textContent = `You both threw ${playerSelection}.  Go again!`;
+          rounds += 1;
+          pScore.textContent = `Player score: ${playerScore}`;
+          cScore.textContent = `Computer score: ${computerScore}`;
+          endGame();
+        } else {
+          resultPara.textContent = declareLoser(
+            playerSelection,
+            computerSelection
+          );
+          endGame();
+        }
+      }
+      // Counts until you have completed five "rounds" of the game, and
+      // announces if you (overall) won, lost, or tied the five-round game.
+      // Resets the score and round counters after playing the fifth round,
+      // so that the program is "reset" for a new game.
+      function endGame() {
+        if (rounds === 1) {
+          resultPara2.textContent = "";
+        }
+        if (rounds === 5) {
+          if (playerScore > computerScore) {
+            resultPara2.textContent = "You win the game!  PLAY AGAIN!";
+            rounds = 0;
+            playerScore = 0;
+            computerScore = 0;
+          } else if (playerScore === computerScore) {
+            resultPara2.textContent = "Tie game!  PLAY AGAIN!";
+            rounds = 0;
+            playerScore = 0;
+            computerScore = 0;
+          } else if (playerScore < computerScore) {
+            resultPara2.textContent = "You lose the game!  PLAY AGAIN!";
+            rounds = 0;
+            playerScore = 0;
+            computerScore = 0;
           }
         }
+      }
 
-      // Function that returns you win declaration statement and adds one to 
-          //player score variable
+      // Function that forms the you win declaration for each round of the game.
+      //Adds one to player score variable and the round counter.  Also displays
+      // the current scores for the user.
       function declareYouAsWinner(playerSelection, computerSelection) {
         playerScore++;
-        return (`You win the round!  ${playerSelection} beats ${computerSelection}!`)
+        rounds += 1;
+        pScore.textContent = `Player score: ${playerScore}`;
+        cScore.textContent = `Computer score: ${computerScore}`;
+        return `You win the round!  ${playerSelection} beats ${computerSelection}!`;
       }
 
-      //Function that returns you lose declaration statement and adds one to 
-          //computer score variable
+      // Function that forms the you lose declaration for each round of the game.
+      //Adds one to computer score variable and the round counter.  Also displays
+      // the current scores for the user.
       function declareLoser(playerSelection, computerSelection) {
         computerScore++;
-        return (`You lose the round!  ${computerSelection} beats ${playerSelection}!`)
+        rounds += 1;
+        cScore.textContent = `Computer score: ${computerScore}`;
+        pScore.textContent = `Player score: ${playerScore}`;
+        return `You lose the round!  ${computerSelection} beats ${playerSelection}!`;
       }
-
-      // Function to ask player to make a play selection and return this value
-      function promptPlayer() {
-        return prompt('Rock, Paper, or Scissors?');
-      }
-
-      // Function to format the player's selection to be 'title case' so that
-          // player can type in his play in any "case" and it will be understood
-          // by the program
-      function formatPlayerSelection(originalPlayerSelection) {
-        let lowercasePlayerSelection =  originalPlayerSelection.toLowerCase();
-        let firstLetter = lowercasePlayerSelection.slice(0,1);
-        firstLetter = firstLetter.toUpperCase();
-        formattedPlayerSelection = firstLetter +
-            lowercasePlayerSelection.slice(1);
-        return formattedPlayerSelection;
-      }
-
-      // function to play a five-round game, announcing the win/lose declaration
-      // for each round and later announces who won the entire game at the end
-      function game() {
-        console.log((playSingleRound(promptPlayer(),playComputerTurn())));
-        console.log((playSingleRound(promptPlayer(),playComputerTurn())));
-        console.log((playSingleRound(promptPlayer(),playComputerTurn())));
-        console.log((playSingleRound(promptPlayer(),playComputerTurn())));
-        console.log((playSingleRound(promptPlayer(),playComputerTurn())));
-        if (playerScore > computerScore) {
-          console.log('You win the game!');
-        } else if (playerScore === computerScore) {
-          console.log('Tie game!!');
-        } else {
-          console.log('You lose the game!');
-        }
-
-      }
-
-       
     </script>
-    <footer>
-    </footer>
+    <footer></footer>
   </body>
 </html>
