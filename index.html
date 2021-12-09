@@ -5,137 +5,58 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rock, Paper, Scissors!</title>
+  <link rel="stylesheet" href="./reset.css">
+  <style>
+    body {
+      height: 100vh;
+      justify-content: space-between;
+    }
+    .weapon-img {
+      width: 100px;
+      height: 100px;
+    }
+    .row {
+      display: flex;
+    }
+    header > .row {
+      justify-content: space-between;
+    }
+    .container {
+      width: 95%;
+      margin: 0 auto;
+      padding-bottom: 10rem;
+    }
+    .column {
+      display: flex;
+      flex-direction: column;
+    }
+    footer.column {
+      align-items: center;
+    }
+    button + button {
+      margin-left: 2rem;
+    }
+  </style>
 </head>
-<body>
-    <div class="results"></div>
-    <button class="rock-btn">Rock</button>
-    <button class="paper-btn">Paper</button>
-    <button class="scissors-btn">Scissors</button>
-    
-    <script>
-      let playerScore = 0;
-      let computerScore = 0;
-      let rounds = 0;
-
-      const rockBtn = document.querySelector('.rock-btn');
-      const paperBtn = document.querySelector('.paper-btn');
-      const scissorsBtn = document.querySelector('.scissors-btn');
-      const pScore = document.createElement('p');
-      const cScore = document.createElement('p');
-      const resultPara = document.createElement('p');
-      const resultPara2 = document.createElement('p');
-      const resultsDiv = document.querySelector('.results');
-      resultsDiv.appendChild(pScore);
-      resultsDiv.appendChild(cScore);
-      resultsDiv.appendChild(resultPara);
-      resultsDiv.appendChild(resultPara2);
-      pScore.textContent = 'Player score: 0';
-      cScore.textContent = 'Computer score: 0';
-
-      rockBtn.addEventListener('click', () => {
-        deletePreviousWinnerAndLoser();
-        playSingleRound('Rock', generateRandomComputerPlay());
-      });
-      paperBtn.addEventListener('click', () => {
-        deletePreviousWinnerAndLoser();
-        playSingleRound('Paper', generateRandomComputerPlay());
-      });
-      scissorsBtn.addEventListener('click', () => {
-        deletePreviousWinnerAndLoser();
-        playSingleRound('Scissors', generateRandomComputerPlay());
-      });
-
-      function generateRandomComputerPlay() {
-        const PLAYS = ['Rock', 'Paper', 'Scissors'];
-        return PLAYS[Math.floor(Math.random() * PLAYS.length)];
-      }
-
-      function playSingleRound(playerSelection, computerSelection) {
-        const WINNING_COMBOS = ['Rock, Scissors', 'Paper, Rock', 'Scissors, Paper'];
-        const TIE_COMBOS = ['Rock, Rock', 'Paper, Paper', 'Scissors, Scissors'];
-      
-        const currentCombo = playerSelection + ', ' + computerSelection;
-
-        if (WINNING_COMBOS.includes(currentCombo)) {
-           winRound();
-        } 
-        else if (TIE_COMBOS.includes(currentCombo)) {
-          tieRound();
-        } 
-        else {
-          loseRound();
-        }
-
-        if (rounds === 5) endGame();
-
-        function winRound() {
-          playerScore++;
-          rounds += 1;
-          renderScore();
-          renderRoundWinner('player');
-        }
-
-        function tieRound() {
-          rounds += 1;
-          renderScore();
-          renderRoundWinner();
-        }
-
-        function loseRound() {
-          computerScore++;
-          rounds += 1;
-          renderScore();
-          renderRoundWinner('computer');
-        }
-
-        function renderRoundWinner(winner) {
-          switch (winner) {
-            case 'player':
-              resultPara.textContent = `You win the round!  ${playerSelection} beats ${computerSelection}!`;
-              break;
-            case 'computer':
-              resultPara.textContent = `You lose the round!  ${computerSelection} beats ${playerSelection}!`;
-              break;
-            default:
-              resultPara.textContent = `You both threw ${playerSelection}.  Go again!`;
-              break;
-          }
-        }
-
-        function renderScore() {
-          pScore.textContent = `Player score: ${playerScore}`;
-          cScore.textContent = `Computer score: ${computerScore}`;
-        }
-
-      }
-  
-      function endGame() {
-        announceGameWinner();
-        resetScores();
-
-        function announceGameWinner() {
-          if (playerScore > computerScore) {
-            resultPara2.textContent = 'You win the game!  PLAY AGAIN!';
-          } 
-          else if (playerScore === computerScore) {
-            resultPara2.textContent = 'Tie game!  PLAY AGAIN!';
-          }
-          else if (playerScore < computerScore) {
-            resultPara2.textContent = 'You lose the game!  PLAY AGAIN!';
-          }
-        }
-
-        function resetScores() {
-          rounds = 0;
-          playerScore = 0;
-          computerScore = 0;
-        }
-      }
-
-      function deletePreviousWinnerAndLoser() {
-        if (resultPara2.textContent) resultPara2.textContent = '';
-      }
-    </script>
+<body class="container column"> 
+  <header>
+    <div class="row">
+      <p class="player-score"></p>
+      <h1>Rock, Paper, Scissors!</h1>
+      <p class="computer-score"></p>
+    </div>
+    <p class="msg"></p>
+    <p class="msg2"></p>
+  </header>
+  <footer class="column">
+    <h2>Choose Your Weapon:</h2>
+    <div>
+      <button class="rock-btn"><img class="weapon-img rock" src="./images/rock.png" alt="a rock"></button>
+      <button class="paper-btn"><img class="weapon-img paper" src="./images/paper.png" alt="a sheet of lined paper"></button>
+      <button class="scissors-btn"><img class="weapon-img scissors" src="./images/scissors.png" alt="a pair of scissors"></button>
+    </div>
+  </footer>
+  <script src="./script.js"></script>
 </body>
 </html>
 
