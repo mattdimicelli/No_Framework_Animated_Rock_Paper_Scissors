@@ -1,150 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta
-      charset="utf-8"
-      name="viewport"
-      content="width=device-width,initial-scale=1"
-    />
-    <title></title>
-    <link rel="stylesheet" href="main.css" />
-  </head>
-  <body>
-    <div id="results"></div>
-    <button id="rockBtn">Rock</button>
-    <button id="paperBtn">Paper</button>
-    <button id="scissorsBtn">Scissors</button>
-    <header></header>
-    <footer></footer>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock, Paper, Scissors!</title>
+</head>
+<body>
+    <div class="results"></div>
+    <button class="rock-btn">Rock</button>
+    <button class="paper-btn">Paper</button>
+    <button class="scissors-btn">Scissors</button>
+    
     <script>
       let playerScore = 0;
       let computerScore = 0;
       let rounds = 0;
 
-      const rockBtn = document.querySelector("#rockBtn");
-      const paperBtn = document.querySelector("#paperBtn");
-      const scissorsBtn = document.querySelector("#scissorsBtn");
-      const pScore = document.createElement("p");
-      const cScore = document.createElement("p");
-      const resultPara = document.createElement("p");
-      const resultPara2 = document.createElement("p");
-      const resultsDiv = document.querySelector("#results");
+      const rockBtn = document.querySelector('.rock-btn');
+      const paperBtn = document.querySelector('.paper-btn');
+      const scissorsBtn = document.querySelector('.scissors-btn');
+      const pScore = document.createElement('p');
+      const cScore = document.createElement('p');
+      const resultPara = document.createElement('p');
+      const resultPara2 = document.createElement('p');
+      const resultsDiv = document.querySelector('.results');
       resultsDiv.appendChild(pScore);
       resultsDiv.appendChild(cScore);
       resultsDiv.appendChild(resultPara);
       resultsDiv.appendChild(resultPara2);
-      pScore.textContent = "Player score: 0";
-      cScore.textContent = "Computer score: 0";
+      pScore.textContent = 'Player score: 0';
+      cScore.textContent = 'Computer score: 0';
 
-      rockBtn.addEventListener("click", () => {
-        playSingleRound("Rock", playComputerTurn());
+      rockBtn.addEventListener('click', () => {
+        deletePreviousWinnerAndLoser();
+        playSingleRound('Rock', generateRandomComputerPlay());
       });
-      paperBtn.addEventListener("click", () => {
-        playSingleRound("Paper", playComputerTurn());
+      paperBtn.addEventListener('click', () => {
+        deletePreviousWinnerAndLoser();
+        playSingleRound('Paper', generateRandomComputerPlay());
       });
-      scissorsBtn.addEventListener("click", () => {
-        playSingleRound("Scissors", playComputerTurn());
+      scissorsBtn.addEventListener('click', () => {
+        deletePreviousWinnerAndLoser();
+        playSingleRound('Scissors', generateRandomComputerPlay());
       });
 
-      //randomly return rock, paper, or scissors (this represents the computer's
-      // play)
-      function playComputerTurn() {
-        const plays = ["Rock", "Paper", "Scissors"];
-        return plays[Math.floor(Math.random() * plays.length)];
+      function generateRandomComputerPlay() {
+        const PLAYS = ['Rock', 'Paper', 'Scissors'];
+        return PLAYS[Math.floor(Math.random() * PLAYS.length)];
       }
 
-      //Function representing one "round" of the game.  Displays whether you
-      // won or lost the round on the screen.  Contains logic to determine
-      // who won or lost the round.
       function playSingleRound(playerSelection, computerSelection) {
-        if (playerSelection === "Rock" && computerSelection === "Scissors") {
-          resultPara.textContent = declareYouAsWinner(
-            playerSelection,
-            computerSelection
-          );
-          endGame();
-        } else if (
-          playerSelection === "Paper" &&
-          computerSelection === "Rock"
-        ) {
-          resultPara.textContent = declareYouAsWinner(
-            playerSelection,
-            computerSelection
-          );
-          endGame();
-        } else if (
-          playerSelection === "Scissors" &&
-          computerSelection === "Paper"
-        ) {
-          resultPara.textContent = declareYouAsWinner(
-            playerSelection,
-            computerSelection
-          );
-          endGame();
-        } else if (playerSelection === computerSelection) {
-          resultPara.textContent = `You both threw ${playerSelection}.  Go again!`;
+        const WINNING_COMBOS = ['Rock, Scissors', 'Paper, Rock', 'Scissors, Paper'];
+        const TIE_COMBOS = ['Rock, Rock', 'Paper, Paper', 'Scissors, Scissors'];
+      
+        const currentCombo = playerSelection + ', ' + computerSelection;
+
+        if (WINNING_COMBOS.includes(currentCombo)) {
+           winRound();
+        } 
+        else if (TIE_COMBOS.includes(currentCombo)) {
+          tieRound();
+        } 
+        else {
+          loseRound();
+        }
+
+        if (rounds === 5) endGame();
+
+        function winRound() {
+          playerScore++;
           rounds += 1;
-          pScore.textContent = `Player score: ${playerScore}`;
-          cScore.textContent = `Computer score: ${computerScore}`;
-          endGame();
-        } else {
-          resultPara.textContent = declareLoser(
-            playerSelection,
-            computerSelection
-          );
-          endGame();
+          renderScore();
+          renderRoundWinner('player');
         }
-      }
-      // Counts until you have completed five "rounds" of the game, and
-      // announces if you (overall) won, lost, or tied the five-round game.
-      // Resets the score and round counters after playing the fifth round,
-      // so that the program is "reset" for a new game.
-      function endGame() {
-        if (rounds === 1) {
-          resultPara2.textContent = "";
+
+        function tieRound() {
+          rounds += 1;
+          renderScore();
+          renderRoundWinner();
         }
-        if (rounds === 5) {
-          if (playerScore > computerScore) {
-            resultPara2.textContent = "You win the game!  PLAY AGAIN!";
-            rounds = 0;
-            playerScore = 0;
-            computerScore = 0;
-          } else if (playerScore === computerScore) {
-            resultPara2.textContent = "Tie game!  PLAY AGAIN!";
-            rounds = 0;
-            playerScore = 0;
-            computerScore = 0;
-          } else if (playerScore < computerScore) {
-            resultPara2.textContent = "You lose the game!  PLAY AGAIN!";
-            rounds = 0;
-            playerScore = 0;
-            computerScore = 0;
+
+        function loseRound() {
+          computerScore++;
+          rounds += 1;
+          renderScore();
+          renderRoundWinner('computer');
+        }
+
+        function renderRoundWinner(winner) {
+          switch (winner) {
+            case 'player':
+              resultPara.textContent = `You win the round!  ${playerSelection} beats ${computerSelection}!`;
+              break;
+            case 'computer':
+              resultPara.textContent = `You lose the round!  ${computerSelection} beats ${playerSelection}!`;
+              break;
+            default:
+              resultPara.textContent = `You both threw ${playerSelection}.  Go again!`;
+              break;
           }
         }
+
+        function renderScore() {
+          pScore.textContent = `Player score: ${playerScore}`;
+          cScore.textContent = `Computer score: ${computerScore}`;
+        }
+
+      }
+  
+      function endGame() {
+        announceGameWinner();
+        resetScores();
+
+        function announceGameWinner() {
+          if (playerScore > computerScore) {
+            resultPara2.textContent = 'You win the game!  PLAY AGAIN!';
+          } 
+          else if (playerScore === computerScore) {
+            resultPara2.textContent = 'Tie game!  PLAY AGAIN!';
+          }
+          else if (playerScore < computerScore) {
+            resultPara2.textContent = 'You lose the game!  PLAY AGAIN!';
+          }
+        }
+
+        function resetScores() {
+          rounds = 0;
+          playerScore = 0;
+          computerScore = 0;
+        }
       }
 
-      // Function that forms the you win declaration for each round of the game.
-      //Adds one to player score variable and the round counter.  Also displays
-      // the current scores for the user.
-      function declareYouAsWinner(playerSelection, computerSelection) {
-        playerScore++;
-        rounds += 1;
-        pScore.textContent = `Player score: ${playerScore}`;
-        cScore.textContent = `Computer score: ${computerScore}`;
-        return `You win the round!  ${playerSelection} beats ${computerSelection}!`;
-      }
-
-      // Function that forms the you lose declaration for each round of the game.
-      //Adds one to computer score variable and the round counter.  Also displays
-      // the current scores for the user.
-      function declareLoser(playerSelection, computerSelection) {
-        computerScore++;
-        rounds += 1;
-        cScore.textContent = `Computer score: ${computerScore}`;
-        pScore.textContent = `Player score: ${playerScore}`;
-        return `You lose the round!  ${computerSelection} beats ${playerSelection}!`;
+      function deletePreviousWinnerAndLoser() {
+        if (resultPara2.textContent) resultPara2.textContent = '';
       }
     </script>
-    <footer></footer>
-  </body>
+</body>
 </html>
+
+
