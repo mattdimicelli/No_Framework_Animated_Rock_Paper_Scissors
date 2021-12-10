@@ -64,13 +64,23 @@
       object-fit: contain;
       max-width: 240px;
       max-height: 240px;
-      transition: all 4s;
+      transition: all 0.5s;
       position: relative;
     }
-    .left {
+    .left-final {
+      /* for the final state of the animation on the left-side image (the player) */
+      left: 0;
+    }
+    .right-final { 
+      /* for the final state of the animation on the right-side image (the computer) */
+      right: 0;
+    }
+    .left-initial {
+      /* for the initial state of the animation on the left-side image (the player) */
       left: -1000px;
     }
-    .right {
+    .right-initial {
+      /* for the initial state of the animation on the right-side image (the computer) */
       right: -1000px;
     }
     .animation {

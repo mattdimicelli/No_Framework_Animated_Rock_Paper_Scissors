@@ -39,9 +39,7 @@ function playSingleRound(playerSelection, computerSelection) {
         (playerSelection === 'Scissors' && computerSelection === 'Paper')) {
         winRound();
     }
-    else if ((playerSelection === 'Rock' && computerSelection === 'Rock') ||
-            (playerSelection === 'Paper' && computerSelection === 'Paper') ||
-            (playerSelection === 'Scissors' && computerSelection === 'Scissors')) {
+    else if (playerSelection === computerSelection) {
         tieRound();
     }
     else {
@@ -71,53 +69,57 @@ function playSingleRound(playerSelection, computerSelection) {
     }
 
     function renderRoundWinner(winner) {
-        switch (winner) {
-            case 'player':
-                resultPara.textContent = `You win the round!  ${playerSelection} beats ${computerSelection}!`;
-                break;
-            case 'computer':
-                resultPara.textContent = `You lose the round!  ${computerSelection} beats ${playerSelection}!`;
-                break;
-            default:
-                resultPara.textContent = `You both threw ${playerSelection}.  Go again!`;
-                break;
-        }
+        setTimeout(() => {
+            switch (winner) {
+                case 'player':
+                    resultPara.textContent = `You win the round!  ${playerSelection} beats ${computerSelection}!`;
+                    break;
+                case 'computer':
+                    resultPara.textContent = `You lose the round!  ${computerSelection} beats ${playerSelection}!`;
+                    break;
+                default:
+                    resultPara.textContent = `You both threw ${playerSelection}.  Go again!`;
+                    break;
+            }
+        }, 900);  // delay message so that it jives with the animation
     }
 
     function renderScore() {
-        pScore.textContent = `Player score: ${playerScore}`;
-        cScore.textContent = `Computer score: ${computerScore}`;
+        setTimeout(() => {
+            pScore.textContent = `Player score: ${playerScore}`;
+            cScore.textContent = `Computer score: ${computerScore}`;
+        }, 900); // delay score update so that it jives w/ the animation
     }
 
-    function renderAnimation() {
-        
-        //based on playerselection, create appropriate image an add
+    function renderAnimation() { 
         const playerImg = document.createElement('img');
-        playerImg.classList.add('animation-img', 'left');
+        playerImg.classList.add('animation-img', 'left-initial', 'left-final');
         const playerSrc = `./images/${playerSelection.toLowerCase()}.png`;
         playerImg.src = playerSrc;
         playerImg.alt = playerSelection;
-        //append the image to the <section class="animation"></section>
         const section = document.querySelector('section.animation');
-        //it should have classes .animation-img, .left
-        //add the right image for the comp selection to it as well.
         const compImg = document.createElement('img');
-        compImg.classList.add('animation-img', 'right');
+        compImg.classList.add('animation-img', 'right-initial', 'right-final');
         const compSrc = `./images/${computerSelection.toLowerCase()}.png`;
         compImg.src = compSrc;
         compImg.alt = computerSelection;
-
         section.append(playerImg, compImg);
-        //it should have .animation-img, .right 
-        setTimeout(() => {
-            playerImg.classList.remove('left');
-            compImg.classList.remove('right');
-        }, 2000);
-        //remove those two classes
-        //after 2 seconds add the classes back on 
-        //remove the images from the DOM
+        setTimeout(moveImgsToCenter, 400);
 
-
+        function removeImgs() {
+            playerImg.remove();
+            compImg.remove();
+        }
+        function moveImgsOffScreen() {
+            playerImg.classList.add('left-initial');
+            compImg.classList.add('right-initial');
+            setTimeout(removeImgs, 650);
+        }
+        function moveImgsToCenter() {
+            playerImg.classList.remove('left-initial');
+            compImg.classList.remove('right-initial');
+            setTimeout(moveImgsOffScreen, 2000);
+        }
     }
 
 }
