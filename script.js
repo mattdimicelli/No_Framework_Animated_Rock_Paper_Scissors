@@ -13,18 +13,18 @@ const resultPara2 = document.querySelector('p.msg2');
 pScore.textContent = 'Player score: 0';
 cScore.textContent = 'Computer score: 0';
 
-rockBtn.addEventListener('click', () => {
+rockBtn.addEventListener('click', handleButtonClick);
+paperBtn.addEventListener('click', handleButtonClick);
+scissorsBtn.addEventListener('click', handleButtonClick);
+
+function handleButtonClick(e) {
+    let weapon;
+    if (e.target.className === 'btn-img rock') weapon = 'Rock';
+    if (e.target.className === 'btn-img paper') weapon = 'Paper';
+    if (e.target.className === 'btn-img scissors') weapon = 'Scissors';
+    playSingleRound(weapon, generateRandomComputerPlay());
     deletePreviousWinnerAndLoser();
-    playSingleRound('Rock', generateRandomComputerPlay());
-});
-paperBtn.addEventListener('click', () => {
-    deletePreviousWinnerAndLoser();
-    playSingleRound('Paper', generateRandomComputerPlay());
-});
-scissorsBtn.addEventListener('click', () => {
-    deletePreviousWinnerAndLoser();
-    playSingleRound('Scissors', generateRandomComputerPlay());
-});
+}
 
 function generateRandomComputerPlay() {
     const PLAYS = ['Rock', 'Paper', 'Scissors'];
@@ -32,15 +32,16 @@ function generateRandomComputerPlay() {
 }
 
 function playSingleRound(playerSelection, computerSelection) {
-    const WINNING_COMBOS = ['Rock, Scissors', 'Paper, Rock', 'Scissors, Paper'];
-    const TIE_COMBOS = ['Rock, Rock', 'Paper, Paper', 'Scissors, Scissors'];
+    renderAnimation();
 
-    const currentCombo = playerSelection + ', ' + computerSelection;
-
-    if (WINNING_COMBOS.includes(currentCombo)) {
+    if ((playerSelection === 'Rock' && computerSelection === 'Scissors') || 
+        (playerSelection === 'Paper' && computerSelection === 'Rock') ||
+        (playerSelection === 'Scissors' && computerSelection === 'Paper')) {
         winRound();
     }
-    else if (TIE_COMBOS.includes(currentCombo)) {
+    else if ((playerSelection === 'Rock' && computerSelection === 'Rock') ||
+            (playerSelection === 'Paper' && computerSelection === 'Paper') ||
+            (playerSelection === 'Scissors' && computerSelection === 'Scissors')) {
         tieRound();
     }
     else {
@@ -86,6 +87,37 @@ function playSingleRound(playerSelection, computerSelection) {
     function renderScore() {
         pScore.textContent = `Player score: ${playerScore}`;
         cScore.textContent = `Computer score: ${computerScore}`;
+    }
+
+    function renderAnimation() {
+        
+        //based on playerselection, create appropriate image an add
+        const playerImg = document.createElement('img');
+        playerImg.classList.add('animation-img', 'left');
+        const playerSrc = `./images/${playerSelection.toLowerCase()}.png`;
+        playerImg.src = playerSrc;
+        playerImg.alt = playerSelection;
+        //append the image to the <section class="animation"></section>
+        const section = document.querySelector('section.animation');
+        //it should have classes .animation-img, .left
+        //add the right image for the comp selection to it as well.
+        const compImg = document.createElement('img');
+        compImg.classList.add('animation-img', 'right');
+        const compSrc = `./images/${computerSelection.toLowerCase()}.png`;
+        compImg.src = compSrc;
+        compImg.alt = computerSelection;
+
+        section.append(playerImg, compImg);
+        //it should have .animation-img, .right 
+        setTimeout(() => {
+            playerImg.classList.remove('left');
+            compImg.classList.remove('right');
+        }, 2000);
+        //remove those two classes
+        //after 2 seconds add the classes back on 
+        //remove the images from the DOM
+
+
     }
 
 }

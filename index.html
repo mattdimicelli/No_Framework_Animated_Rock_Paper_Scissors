@@ -10,32 +10,73 @@
     body {
       height: 100vh;
       justify-content: space-between;
-    }
-    .weapon-img {
-      width: 100px;
-      height: 100px;
+      font-family: sans-serif;
+      background-color: #ffea00;
     }
     .row {
       display: flex;
     }
     header > .row {
       justify-content: space-between;
+      padding-bottom: 1rem;
     }
     .container {
       width: 95%;
       margin: 0 auto;
       padding-bottom: 10rem;
+      padding-top: 1rem;
     }
     .column {
       display: flex;
       flex-direction: column;
     }
-    footer.column {
+    section.column {
       align-items: center;
+      gap: 1rem;
     }
     button + button {
       margin-left: 2rem;
     }
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+    }
+    h2, p.player-score, p.computer-score {
+      font-size: 1.5rem;
+    }
+    p.computer-score {
+      text-align: right;
+    }
+    .msg, .msg2 {
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    .btn-img {
+      height: 20vw;
+      width:  20vw;
+      object-fit: contain;
+      max-width: 170px;
+      max-height: 170px;
+    }
+    .animation-img {
+      height: 35vw;
+      width: 35vw;
+      object-fit: contain;
+      max-width: 240px;
+      max-height: 240px;
+      transition: all 4s;
+      position: relative;
+    }
+    .left {
+      left: -1000px;
+    }
+    .right {
+      right: -1000px;
+    }
+    .animation {
+      text-align: center;
+    }
+    
   </style>
 </head>
 <body class="container column"> 
@@ -48,14 +89,22 @@
     <p class="msg"></p>
     <p class="msg2"></p>
   </header>
-  <footer class="column">
-    <h2>Choose Your Weapon:</h2>
-    <div>
-      <button class="rock-btn"><img class="weapon-img rock" src="./images/rock.png" alt="a rock"></button>
-      <button class="paper-btn"><img class="weapon-img paper" src="./images/paper.png" alt="a sheet of lined paper"></button>
-      <button class="scissors-btn"><img class="weapon-img scissors" src="./images/scissors.png" alt="a pair of scissors"></button>
-    </div>
-  </footer>
+  <main>
+    <section class="animation">
+      <!-- <img class="animation-img" src="./images/scissors.png"> -->
+      <!-- <img class="animation-img" src="./images/rock.png"> -->
+      <!-- <img class="animation-img" src="./images/paper.png"> -->
+    </section>
+    <section class="column">
+      <h2 class="choose">Choose Your Weapon:</h2>
+      <div>
+        <button class="rock-btn"><img class="btn-img rock" src="./images/rock.png" alt="a rock"></button>
+        <button class="paper-btn"><img class="btn-img paper" src="./images/paper.png" alt="a sheet of lined paper"></button>
+        <button class="scissors-btn"><img class="btn-img scissors" src="./images/scissors.png" alt="a pair of scissors"></button>
+      </div>
+    </section>
+  </main>
+  
   <script src="./script.js"></script>
 </body>
 </html>
