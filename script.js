@@ -2,13 +2,13 @@ let playerScore = 0;
 let computerScore = 0;
 let rounds = 0;
 
-const rockBtn = document.querySelector('.rock-btn');
-const paperBtn = document.querySelector('.paper-btn');
-const scissorsBtn = document.querySelector('.scissors-btn');
-const pScore = document.querySelector('p.player-score');
-const cScore = document.querySelector('p.computer-score');
-const resultPara = document.querySelector('p.msg');
-const resultPara2 = document.querySelector('p.msg2');
+let rockBtn = document.querySelector('.rock-btn');
+let paperBtn = document.querySelector('.paper-btn');
+let scissorsBtn = document.querySelector('.scissors-btn');
+let pScore = document.querySelector('p.player-score');
+let cScore = document.querySelector('p.computer-score');
+let resultPara = document.querySelector('p.msg');
+let resultPara2 = document.querySelector('p.msg2');
 
 pScore.textContent = 'Player score: 0';
 cScore.textContent = 'Computer score: 0';
@@ -18,12 +18,12 @@ paperBtn.addEventListener('click', handleButtonClick);
 scissorsBtn.addEventListener('click', handleButtonClick);
 
 function handleButtonClick(e) {
+    deletePreviousWinnerAndLoser();
     let weapon;
     if (e.target.className === 'btn-img rock') weapon = 'Rock';
     if (e.target.className === 'btn-img paper') weapon = 'Paper';
     if (e.target.className === 'btn-img scissors') weapon = 'Scissors';
     playSingleRound(weapon, generateRandomComputerPlay());
-    deletePreviousWinnerAndLoser();
 }
 
 function generateRandomComputerPlay() {
@@ -92,13 +92,13 @@ function playSingleRound(playerSelection, computerSelection) {
     }
 
     function renderAnimation() { 
-        const playerImg = document.createElement('img');
+        let playerImg = document.createElement('img');
         playerImg.classList.add('animation-img', 'left-initial', 'left-final');
         const playerSrc = `./images/${playerSelection.toLowerCase()}.png`;
         playerImg.src = playerSrc;
         playerImg.alt = playerSelection;
-        const section = document.querySelector('section.animation');
-        const compImg = document.createElement('img');
+        let section = document.querySelector('section.animation');
+        let compImg = document.createElement('img');
         compImg.classList.add('animation-img', 'right-initial', 'right-final');
         const compSrc = `./images/${computerSelection.toLowerCase()}.png`;
         compImg.src = compSrc;
@@ -129,16 +129,17 @@ function endGame() {
     resetScores();
 
     function announceGameWinner() {
-        resultPara.textContent = '';
-        if (playerScore > computerScore) {
-            resultPara2.textContent = 'You win the game!  PLAY AGAIN!';
-        }
-        else if (playerScore === computerScore) {
-            resultPara2.textContent = 'Tie game!  PLAY AGAIN!';
-        }
-        else if (playerScore < computerScore) {
-            resultPara2.textContent = 'You lose the game!  PLAY AGAIN!';
-        }
+        setTimeout(() => {
+            if (playerScore > computerScore) {
+                resultPara2.textContent = 'You win the game!  PLAY AGAIN!';
+            }
+            else if (playerScore === computerScore) {
+                resultPara2.textContent = 'Tie game!  PLAY AGAIN!';
+            }
+            else if (playerScore < computerScore) {
+                resultPara2.textContent = 'You lose the game!  PLAY AGAIN!';
+            }
+        }, 900);
     }
 
     function resetScores() {
