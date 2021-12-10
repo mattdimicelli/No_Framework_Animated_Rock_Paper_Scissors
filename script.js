@@ -1,17 +1,17 @@
 let playerScore = 0;
 let computerScore = 0;
-let rounds = 0;
+let round = 1;  // the first round is round 1
 
 let rockBtn = document.querySelector('.rock-btn');
 let paperBtn = document.querySelector('.paper-btn');
 let scissorsBtn = document.querySelector('.scissors-btn');
-let pScore = document.querySelector('p.player-score');
-let cScore = document.querySelector('p.computer-score');
+let pScore = document.querySelector('span.player-score');
+let cScore = document.querySelector('span.computer-score');
 let resultPara = document.querySelector('p.msg');
 let resultPara2 = document.querySelector('p.msg2');
 
-pScore.textContent = 'Player score: 0';
-cScore.textContent = 'Computer score: 0';
+pScore.textContent = '0';
+cScore.textContent = '0';
 
 rockBtn.addEventListener('click', handleButtonClick);
 paperBtn.addEventListener('click', handleButtonClick);
@@ -46,26 +46,36 @@ function playSingleRound(playerSelection, computerSelection) {
         loseRound();
     }
 
-    if (rounds === 5) endGame();
+    if (round === 6) endGame();
 
     function winRound() {
         playerScore++;
-        rounds += 1;
+        round += 1;
         renderScore();
         renderRoundWinner('player');
+        updateRoundNumber();
     }
 
     function tieRound() {
-        rounds += 1;
+        round += 1;
         renderScore();
         renderRoundWinner();
+        updateRoundNumber();
     }
 
     function loseRound() {
         computerScore++;
-        rounds += 1;
+        round += 1;
         renderScore();
         renderRoundWinner('computer');
+        updateRoundNumber();
+    }
+
+    function updateRoundNumber() {
+        setTimeout(() => {
+            let roundNumber = document.querySelector('span.round');
+            roundNumber.textContent = round;
+        }, 2900); // delay message so that it jives with the animation
     }
 
     function renderRoundWinner(winner) {
@@ -86,15 +96,16 @@ function playSingleRound(playerSelection, computerSelection) {
 
     function renderScore() {
         setTimeout(() => {
-            pScore.textContent = `Player score: ${playerScore}`;
-            cScore.textContent = `Computer score: ${computerScore}`;
-        }, 900); // delay score update so that it jives w/ the animation
+            pScore.textContent = playerScore;
+            cScore.textContent = computerScore;
+        }, 2900); // delay score update so that it jives w/ the animation
     }
 
     function renderAnimation() { 
         let playerImg = document.createElement('img');
         playerImg.classList.add('animation-img', 'left-initial', 'left-final');
         const playerSrc = `./images/${playerSelection.toLowerCase()}.png`;
+        if (playerSelection === 'Scissors') playerImg.classList.add('facing-right');
         playerImg.src = playerSrc;
         playerImg.alt = playerSelection;
         let section = document.querySelector('section.animation');
@@ -143,7 +154,7 @@ function endGame() {
     }
 
     function resetScores() {
-        rounds = 0;
+        round = 1;
         playerScore = 0;
         computerScore = 0;
     }

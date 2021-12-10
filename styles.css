@@ -15,7 +15,7 @@ body {
   .container {
     width: 95%;
     margin: 0 auto;
-    padding-bottom: 10rem;
+    padding-bottom: 6rem;
     padding-top: 1rem;
   }
   .column {
@@ -30,7 +30,7 @@ body {
     margin-left: 2rem;
   }
   h1 {
-    font-size: 2.0rem;
+    font-size: 2.2rem;
     text-align: center;
   }
   h2, p.player-score, p.computer-score {
@@ -81,10 +81,21 @@ body {
   .animation {
     text-align: center;
   }
+  span.computer-score {
+    display: block;
+  }
+  .facing-right {
+    transform: rotate(180deg);
+  }
 
-@media screen (min-width: 552px) {
+@media (min-width: 480px) {
+  span.computer-score {
+    display: inline;
+  }
+}
+@media (min-width: 552px) {
     h1 {
-      font-size: 2.5rem;
+      font-size: 3.0rem;
     }
     h2, p.player-score, p.computer-score {
       font-size: 1.5rem;
