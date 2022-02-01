@@ -19,8 +19,8 @@ bit above and beyond the requirements to add some CSS animations.
 
 ### Links
 
-- [Live site](https://mattdimicelli.github.io/RockPaperScissors/)
-- [Repo](https://github.com/mattdimicelli/RockPaperScissors)
+- [Live site](https://mattdimicelli.github.io/No_Framework_Animated_Rock_Paper_Scissors/)
+- [Repo](https://github.com/mattdimicelli/No_Framework_Animated_Rock_Paper_Scissors/)
 
 ## My process
 - An earlier iteration of this project was text-only.  The app that you see here
